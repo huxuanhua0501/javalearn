@@ -2,26 +2,22 @@ package com.xuanhuahu.java.basic;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.JSONPObject;
-import com.alibaba.fastjson.annotation.JSONPOJOBuilder;
-import com.fasterxml.jackson.databind.annotation.JsonAppend;
-import sun.dc.pr.PRError;
 
 import java.io.*;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
-import java.util.concurrent.CountDownLatch;
 
 /**
  * Created by win7 on 2017/5/15.
  */
-public class WifiProbeService {
+public class WifiProbeService2 {
 
     public static void main(String[] args) throws IOException {
 
-//        while (true) {
-        String oldpath = "E:\\wif探针重要\\724\\cc\\data";
-        String newpath = "E:\\wif探针重要\\724\\cc\\datas";
+        String oldpath = "D:\\mac\\data";
+        String newpath = "D:\\macs\\data";
         // System.err.println(path);
         File file2 = new File(oldpath);
         if (!file2.exists()) {
@@ -36,71 +32,59 @@ public class WifiProbeService {
         String url = null;
         int i = 1;
       //  final CountDownLatch latch = new CountDownLatch(files.length);
+        Map<String, String> map = new HashMap<>();
+        map.put("结束了","kk");
+        BufferedReader bufr = null;
+        BufferedWriter bufw = null;
+        FileWriter fw = null;
+        fw = new FileWriter(file5 + File.separator+ "xxx");
+        bufw = new BufferedWriter(fw);
         for (File file : files) {
-         //  latch.countDown();
-//            System.err.println(i+++" =="+file.getName());
             FileReader fr = null;
-            FileWriter fw = null;
-            BufferedReader bufr = null;
-            BufferedWriter bufw = null;
+
             try {
                 fr = new FileReader(file);
-                fw = new FileWriter(file5 + File.separator + file.getName());
                 bufr = new BufferedReader(fr);
-                bufw = new BufferedWriter(fw);
 
 
                 // 一行一行的寫。
                 String line = null;
                 String name = null;
+               int k = 1;
                 while ((line = bufr.readLine()) != null) {
-                    if(line.contains("busNo")){
-                        JSONObject json = JSONObject.parseObject(line);
-                        BusInfo busInfo = JSONObject.parseObject(json.get("busInfo").toString(), BusInfo.class);
-                        name = busInfo.getBusNo();
+
+                    if(line.contains("wifiInfo")){
+                        k++;
+                        JSONObject json =null;
+                        try{
+                              json = JSONObject.parseObject(line);
+
+                        }catch (Exception e){
+                            System.err.println( k+"======");
+                            System.err.println( file.getName()+"    =============");
+                        }
+                       String strs =  json.get("wifiInfo").toString();
+                        List<HashMap> list  =  JSON.parseArray(strs,HashMap.class);
+                       for(int a = 0 ;a<list.size();a++){
+                               if (list.get(a).get("DType").equals("0"))
+                                   map.put(list.get(a).get("Mac").toString(), "111");
+
+//                           }
+//                           }
+                       }
+
                     }
-//                    if (line.contains("GPS")) {
-//                        JSONObject json = JSONObject.parseObject(line);
-//                        GPS gps = JSONObject.parseObject(json.get("GPS").toString(), GPS.class);
-//                        gps.setLon(gps.getLon().substring(0, 5));
-//                        gps.setLat(gps.getLat().substring(0, 4));
-//                        JSONObject object = new JSONObject();
-//                        object.put("GPS", gps);
-//                        bufw.write(line.replace(json.get("GPS").toString(), JSON.toJSONString(object.get("GPS"))));
-//                    } else {
-                        bufw.write(line);
-//                    }
-                    bufw.newLine();
-                    bufw.flush();
+
                 }
 
-                bufr.close();
-                //   file.delete();
-                bufw.close();
-                Thread.sleep(123);
-                File f=new File(file5 + File.separator + file.getName());
-                System.err.println(file.getName().replace(file.getName().substring(0,file.getName().indexOf("_WiFiProbe")),name));
-                File mm=new File(file5+File.separator+file.getName().replace(file.getName().substring(0,file.getName().indexOf("_WiFiProbe")),name));
-                if(f.renameTo(mm))
-                {
-                    System.out.println("修改成功!");
-                }
-                else
-                {
-                    System.out.println("修改失败");
-                }
+
             } catch (Exception e) {
                 e.printStackTrace();
-            } finally {
-                bufr.close();
-                bufw.close();
             }
         }
-//        try {
-//          //  latch.await();
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
+        Iterator<Map.Entry<String, String>> it = map.entrySet().iterator();
+        System.err.println(map.size());
+
         try {
             Thread.sleep(100);
         } catch (InterruptedException e) {
