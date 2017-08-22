@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.annotation.JsonAppend;
 import sun.dc.pr.PRError;
 
 import java.io.*;
+import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
@@ -20,8 +21,8 @@ public class WifiProbeService {
     public static void main(String[] args) throws IOException {
 
 //        while (true) {
-        String oldpath = "E:\\wif探针重要\\724\\cc\\data";
-        String newpath = "E:\\wif探针重要\\724\\cc\\datas";
+        String oldpath = "E:\\2017-08-04";
+        String newpath = "E:\\gggggggg";
         // System.err.println(path);
         File file2 = new File(oldpath);
         if (!file2.exists()) {
@@ -54,11 +55,11 @@ public class WifiProbeService {
                 String line = null;
                 String name = null;
                 while ((line = bufr.readLine()) != null) {
-                    if(line.contains("busNo")){
-                        JSONObject json = JSONObject.parseObject(line);
-                        BusInfo busInfo = JSONObject.parseObject(json.get("busInfo").toString(), BusInfo.class);
-                        name = busInfo.getBusNo();
-                    }
+//                    if(line.contains("busNo")){
+//                        JSONObject json = JSONObject.parseObject(line);
+//                        BusInfo busInfo = JSONObject.parseObject(json.get("busInfo").toString(), BusInfo.class);
+//                        name = busInfo.getBusNo();
+//                    }
 //                    if (line.contains("GPS")) {
 //                        JSONObject json = JSONObject.parseObject(line);
 //                        GPS gps = JSONObject.parseObject(json.get("GPS").toString(), GPS.class);
@@ -79,16 +80,20 @@ public class WifiProbeService {
                 bufw.close();
                 Thread.sleep(123);
                 File f=new File(file5 + File.separator + file.getName());
-                System.err.println(file.getName().replace(file.getName().substring(0,file.getName().indexOf("_WiFiProbe")),name));
-                File mm=new File(file5+File.separator+file.getName().replace(file.getName().substring(0,file.getName().indexOf("_WiFiProbe")),name));
-                if(f.renameTo(mm))
-                {
-                    System.out.println("修改成功!");
-                }
-                else
-                {
-                    System.out.println("修改失败");
-                }
+                SimpleDateFormat format =  new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                String k =file.getName().substring(file.getName().indexOf("15"), (int) file.getName().length());
+                String d = format.format(Long.parseLong(k.substring(0,k.indexOf(".")))*1000L);
+//                System.err.println(d);
+                File mm=new File(file5+File.separator+file.getName().replace(file.getName().substring(file.getName().indexOf("_WiFiProbe_")),d+".log"));
+                System.err.println(file5+File.separator+file.getName().replace(file.getName().substring(file.getName().indexOf("_WiFiProbe_")),d+".log"));
+//                if(f.renameTo(mm))
+//                {
+//                    System.out.println("修改成功!");
+//                }
+//                else
+//                {
+//                    System.out.println("修改失败");
+//                }
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {
@@ -205,4 +210,6 @@ public class WifiProbeService {
             this.city = city;
         }
     }
+
+
 }
