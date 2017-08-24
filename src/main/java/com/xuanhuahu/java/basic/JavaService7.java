@@ -3,20 +3,18 @@ package com.xuanhuahu.java.basic;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.tomcat.util.http.fileupload.FileUtils;
-
 
 import java.io.*;
 import java.nio.file.Files;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-public class WifiProbeService5 {
+public class JavaService7 {
     public static void main(String[] args) throws IOException {
 
 //        String oldpath = "C:\\Users\\win7\\Desktop\\2017-08-21\\2017-08-21";
-        String oldpath = "E:\\2017-08-23\\2017-08-23";
-        String newpath = "E:\\godata2017-08-23**";
+        String oldpath = "/data0/wifiprobe/newlog"+ File.separator+yesterday();
+        String newpath = "/data0/wifiprobe/log"+File.separator+yesterday();
         // System.err.println(path);
         File file2 = new File(oldpath);
         if (!file2.exists()) {
@@ -30,9 +28,9 @@ public class WifiProbeService5 {
         File[] files = file2.listFiles();
         String url = null;
         int i = 1;
-        Map<String, String> map = new HashMap<>();
-        Map<String, String> map1 = new HashMap<>();
-        Map<String, String> map2 = new HashMap<>();
+        Map<String, String> map = new HashMap<String, String>();
+        Map<String, String> map1 = new HashMap<String, String>();
+        Map<String, String> map2 = new HashMap<String, String>();
         Set<String> set = new HashSet<String>();
 //        map.put("结束了", "kk");
         BufferedReader bufr = null;
@@ -84,14 +82,13 @@ public class WifiProbeService5 {
                         if (list != null && list.size() > 0) {
                             for (int a = 0; a < list.size(); a++) {
                                 if (list.get(a).get("Mac").toString().contains("**")) {
+                                    map.remove(file.getName().substring(0, file.getName().lastIndexOf("_Wi")));
+                                    break;
+                                } else {
                                     map2.put(file.getName().substring(0, file.getName().lastIndexOf("_Wi")), map.get(file.getName().substring(0, file.getName().lastIndexOf("_Wi"))));
+                                    map1.put(file.getPath(), file.getName());
                                     break;
                                 }
-//                                else {
-//                                    map.remove(file.getName().substring(0, file.getName().lastIndexOf("_Wi")));
-//                                  //  map1.put(file.getPath(), file.getName());
-//                                    break;
-//                                }
 
 
 //                           }
@@ -122,17 +119,17 @@ public class WifiProbeService5 {
 
         }
 
-//        Iterator<Map.Entry<String, String>> it = map1.entrySet().iterator();
+        Iterator<Map.Entry<String, String>> it = map1.entrySet().iterator();
 
-//        while (it.hasNext()) {
-//            Map.Entry<String, String> entry = it.next();
-////            System.err.println(new File(entry.getKey()).toPath());
-////            System.err.println(new File(newpath+File.separator+ entry.getValue()).toPath());
-//            Files.copy(new File(entry.getKey()).toPath(), new File(newpath + File.separator + entry.getValue()).toPath());
-//            files.clone();
-////            String value = it.next().getValue();
-////            System.err.println(value);
-//        }
+        while (it.hasNext()) {
+            Map.Entry<String, String> entry = it.next();
+//            System.err.println(new File(entry.getKey()).toPath());
+//            System.err.println(new File(newpath+File.separator+ entry.getValue()).toPath());
+            Files.copy(new File(entry.getKey()).toPath(), new File(newpath + File.separator + entry.getValue()).toPath());
+            files.clone();
+//            String value = it.next().getValue();
+//            System.err.println(value);
+        }
 
     }
 
@@ -213,10 +210,10 @@ public class WifiProbeService5 {
             this.city = city;
         }
     }
-    public static String yesterday(int day){
+    public static String yesterday(){
         Calendar   cal   =   Calendar.getInstance();
         cal.add(Calendar.DATE,   1);
         String yesterday = new SimpleDateFormat( "yyyy-MM-dd").format(cal.getTime());
         return yesterday;
     }
-}
+    }
