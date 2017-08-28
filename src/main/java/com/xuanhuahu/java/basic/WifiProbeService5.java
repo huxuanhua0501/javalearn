@@ -15,7 +15,7 @@ public class WifiProbeService5 {
     public static void main(String[] args) throws IOException {
 
 //        String oldpath = "C:\\Users\\win7\\Desktop\\2017-08-21\\2017-08-21";
-        String oldpath = "E:\\2017-08-23\\2017-08-23";
+        String oldpath = "E:\\2017-08-24";
         String newpath = "E:\\godata2017-08-23**";
         // System.err.println(path);
         File file2 = new File(oldpath);

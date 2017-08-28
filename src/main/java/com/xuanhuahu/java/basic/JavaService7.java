@@ -13,8 +13,8 @@ public class JavaService7 {
     public static void main(String[] args) throws IOException {
 
 //        String oldpath = "C:\\Users\\win7\\Desktop\\2017-08-21\\2017-08-21";
-        String oldpath = "/data0/wifiprobe/newlog"+ File.separator+yesterday();
-        String newpath = "/data0/wifiprobe/log"+File.separator+yesterday();
+        String oldpath = "E:\\2017-08-27";
+        String newpath = "E:\\godata2017-08-27";
         // System.err.println(path);
         File file2 = new File(oldpath);
         if (!file2.exists()) {

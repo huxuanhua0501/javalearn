@@ -11,8 +11,50 @@ import java.sql.SQLException;
  */
 @Component
 public class BAIDUWifiProbeDao extends JDBCUtils2 {
-    public String insert(String line,String busno,String company) {
+    public String insertb(String line,String busno,String company) {
     String lineId = null;
+        try {
+            con = this.getConnection();
+            String sql = "INSERT INTO buslinetest(line,busno,company)VALUES(?,?,?)";
+            pre = con.prepareStatement(sql);
+            pre.setString(1, line);
+            pre.setString(2, busno);
+            pre.setString(3, company);
+            pre.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+                closeconnection();
+
+        }
+        return lineId;
+    }
+    public int selectb(String line,String busno,String company) {
+        String lineId = null;
+        int count = 0;
+        try {
+            con = this.getConnection();
+            String sql = " SELECT count(1) AS num FROM `buslinetest` WHERE line=? AND busno=? AND company=?";
+            pre = con.prepareStatement(sql);
+            pre.setString(1, line);
+            pre.setString(2, busno);
+            pre.setString(3, company);
+            ResultSet rs = pre.executeQuery();
+
+             while (rs.next()){
+                 count = rs.getInt("num");
+             }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            closeconnection();
+
+        }
+        return count;
+    }
+    public String insert(String line,String busno,String company) {
+        String lineId = null;
         try {
             con = this.getConnection();
             String sql = "INSERT INTO buslinetest_copy(line,busno,company)VALUES(?,?,?)";
@@ -25,7 +67,7 @@ public class BAIDUWifiProbeDao extends JDBCUtils2 {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-                closeconnection();
+            closeconnection();
 
         }
         return lineId;
@@ -42,9 +84,9 @@ public class BAIDUWifiProbeDao extends JDBCUtils2 {
             pre.setString(3, company);
             ResultSet rs = pre.executeQuery();
 
-             while (rs.next()){
-                 count = rs.getInt("num");
-             }
+            while (rs.next()){
+                count = rs.getInt("num");
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
