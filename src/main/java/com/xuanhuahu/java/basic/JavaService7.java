@@ -13,24 +13,40 @@ public class JavaService7 {
     public static void main(String[] args) throws IOException {
 
 //        String oldpath = "C:\\Users\\win7\\Desktop\\2017-08-21\\2017-08-21";
-        String oldpath = "E:\\2017-08-27";
-        String newpath = "E:\\godata2017-08-27";
+        String oldpath = "E:\\2017-09-04";
+        String newpath = "E:\\godata2017-09-04";
         // System.err.println(path);
-        File file2 = new File(oldpath);
-        if (!file2.exists()) {
-            file2.mkdirs();
-        }
-        File file5 = new File(newpath);
-        if (!file5.exists()) {
-            file5.mkdirs();
-        }
-        // 目录下所有的文件
-        File[] files = file2.listFiles();
-        String url = null;
-        int i = 1;
+        File file2 = null;
+        File file5 = null;
+        File f =null;
         Map<String, String> map = new HashMap<String, String>();
         Map<String, String> map1 = new HashMap<String, String>();
         Map<String, String> map2 = new HashMap<String, String>();
+        for(int w = 0 ;w<24;w++) {
+            if (w < 10) {
+                file2 = new File("E:\\2017-09-04" + File.separator + "0" + w);
+                f = new File(file5 + File.separator + "WifiProbe" + yesterday() + " 0" + w + ".log");
+            } else {
+                file2 = new File("E:\\2017-09-04" + File.separator + w);
+                f = new File(file5 + File.separator + "WifiProbe" + yesterday() + " " + w + ".log");
+            }
+
+
+//        File file2 = new File(oldpath);
+//        if (!file2.exists()) {
+//            file2.mkdirs();
+//        }
+//        File file5 = new File(newpath);
+//        if (!file5.exists()) {
+//            file5.mkdirs();
+//        }
+        // 目录下所有的文件
+        File[] files = file2.listFiles();
+        String url = null;
+//        int i = 1;
+//        Map<String, String> map = new HashMap<String, String>();
+//        Map<String, String> map1 = new HashMap<String, String>();
+//        Map<String, String> map2 = new HashMap<String, String>();
         Set<String> set = new HashSet<String>();
 //        map.put("结束了", "kk");
         BufferedReader bufr = null;
@@ -38,7 +54,7 @@ public class JavaService7 {
         FileWriter fw = null;
 //        fw = new FileWriter(file5);
 //        bufw = new BufferedWriter(fw);
-        int b = 0;
+//        int b = 0;
         for (File file : files) {
             FileReader fr = null;
 
@@ -105,7 +121,7 @@ public class JavaService7 {
                 e.printStackTrace();
             }
         }
-
+        }
         Iterator<Map.Entry<String, String>> it2 = map2.entrySet().iterator();
 
         while (it2.hasNext()) {
@@ -119,17 +135,17 @@ public class JavaService7 {
 
         }
 
-        Iterator<Map.Entry<String, String>> it = map1.entrySet().iterator();
-
-        while (it.hasNext()) {
-            Map.Entry<String, String> entry = it.next();
-//            System.err.println(new File(entry.getKey()).toPath());
-//            System.err.println(new File(newpath+File.separator+ entry.getValue()).toPath());
-            Files.copy(new File(entry.getKey()).toPath(), new File(newpath + File.separator + entry.getValue()).toPath());
-            files.clone();
-//            String value = it.next().getValue();
-//            System.err.println(value);
-        }
+//        Iterator<Map.Entry<String, String>> it = map1.entrySet().iterator();
+//
+//        while (it.hasNext()) {
+//            Map.Entry<String, String> entry = it.next();
+////            System.err.println(new File(entry.getKey()).toPath());
+////            System.err.println(new File(newpath+File.separator+ entry.getValue()).toPath());
+//            Files.copy(new File(entry.getKey()).toPath(), new File(newpath + File.separator + entry.getValue()).toPath());
+//            files.clone();
+////            String value = it.next().getValue();
+////            System.err.println(value);
+//        }
 
     }
 

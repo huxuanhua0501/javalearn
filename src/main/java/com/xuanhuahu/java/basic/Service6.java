@@ -17,10 +17,10 @@ import java.util.*;
 @Component
 @EnableScheduling
 public class Service6 {
-    @Scheduled(cron = "0 0/2 * * * ?") // 每分钟执行一次
+    @Scheduled(cron = "0 0/1 * * * ?") // 每分钟执行一次
     public void work() throws Exception {
 
-        String oldpath = "E:\\不带星号\\新建文件夹";
+        String oldpath = "E:\\带星号\\新建文件夹";
         // System.err.println(path);
         File file2 = new File(oldpath);
         if (!file2.exists()) {
@@ -41,9 +41,9 @@ public class Service6 {
                 while ((line = bufr.readLine()) != null) {
                     System.err.println(a++);
                     String[] strs = line.split("-");
-                    int k = new BAIDUWifiProbeDao().selectb(strs[0], strs[1], strs[2]) ;
+                    int k = new BAIDUWifiProbeDao().select(strs[0], strs[1], strs[2]) ;
                     if(k<=0){
-                        new BAIDUWifiProbeDao().insertb(strs[0], strs[1], strs[2]);
+                        new BAIDUWifiProbeDao().insert(strs[0], strs[1], strs[2]);
                     }
 
                 }
